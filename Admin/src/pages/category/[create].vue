@@ -29,12 +29,6 @@ const Save = async () => {
         showClose: true,
         message: '更新成功',
       })
-    }).catch((error) => {
-      ElMessage({
-        type: 'error',
-        showClose: true,
-        message: error.message,
-      })
     })
   }
   // 创建操作
