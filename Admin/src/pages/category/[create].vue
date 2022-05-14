@@ -8,7 +8,7 @@ const categoryModel = ref({
 })
 
 const Save = async () => {
-  await axios.post('categorise', categoryModel).then((res) => {
+  await axios.post('categorise', categoryModel.value).then((res) => {
     router.push('/category/list')
     ElMessage({
       type: 'success',

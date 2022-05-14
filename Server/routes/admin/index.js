@@ -7,6 +7,10 @@ module.exports = app => {
     const model = await Category.create(req.body)
     res.send(model)
   })
+  router.get('/categorise', async (req, res) => {
+    const iterms = await Category.find().limit(10)
+    res.send(iterms)
+  })
 
   app.use('/admin/api', router)
 }
