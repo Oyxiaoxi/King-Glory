@@ -1,32 +1,29 @@
 <script setup lang="ts">
-import axios from 'axios'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { deleteCategory, fetchCategory } from '~/api/modules/category'
+import { useHandleData } from '~/hooks/useHandleData'
+import type { CategoryProps } from '~/store/interface'
+import { Category } from '~/store/modules/category'
 
-import { useListStore } from '~/store/List'
-const store = useListStore()
-const ListData = computed(() => { return store.getListData })
-const remove = (row: any) => {
-  ElMessageBox.confirm(
-    `是否确定要删除分类 "${row.name}" 吗？`,
-    '提示',
-    {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning',
-    },
-  )
-    .then(async () => {
-      await axios.delete(`/categorise/${row._id}`)
-      ElMessage({
-        type: 'success',
-        message: '删除成功',
-      })
-      store.fetchListData()
-    })
+const store = Category()
+
+const data = computed(() => {
+  return store.getCategoryObj()
+})
+
+onMounted(async () => {
+  const result = await fetchCategory()
+  store.setCategory(result)
+})
+
+const remove = async (params: CategoryProps) => {
+  await useHandleData(deleteCategory, { id: params._id }, `删除 ${params.name} 列表`)
+  store.deleteCategory(params._id)
+  store.getCategoryObj()
 }
 
-onMounted(() => {
-  store.fetchListData()
+defineExpose({
+  data,
+  remove,
 })
 </script>
 
@@ -35,7 +32,7 @@ onMounted(() => {
     <h1 text="left font-medium" p="y-10">
       分类列表
     </h1>
-    <el-table :data="ListData">
+    <el-table :data="data">
       <el-table-column prop="_id" label="ID" width="240" />
       <el-table-column prop="name" label="分类名称" />
       <el-table-column fixed="right" label="操作" width="140">

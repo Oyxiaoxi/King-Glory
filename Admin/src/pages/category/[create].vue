@@ -1,53 +1,21 @@
 <script setup lang="ts">
-import axios from 'axios'
-import { ElMessage } from 'element-plus'
+import { fetchCategory } from '~/api/modules/category'
+import { Category } from '~/store/modules/category'
 
-const router = useRouter()
-const props = defineProps<CategoryProps>()
+const store = Category()
 
-const categoryModel = ref({
-  name: '',
+onMounted(async () => {
+  const result = await fetchCategory()
+  store.setCategory(result)
 })
 
-interface CategoryProps {
-  id?: string
-}
+const data = computed(() => {
+  return store.getCategoryObj()
+})
 
-if (props.id) {
-  axios.get(`/categorise/${props.id}`).then((res) => {
-    categoryModel.value = res.data
-  })
-}
-
-const Save = async () => {
-  // 如果路由传递了id，则是编辑操作
-  if (props.id) {
-    await axios.put(`categorise/${props.id}`, categoryModel.value).then((res) => {
-      router.push('/category/list')
-      ElMessage({
-        type: 'success',
-        showClose: true,
-        message: '更新成功',
-      })
-    })
-  }
-  // 创建操作
-  await axios.post('categorise', categoryModel.value).then((res) => {
-    router.push('/category/list')
-    ElMessage({
-      type: 'success',
-      showClose: true,
-      message: '保存成功',
-    })
-  }).catch((error) => {
-    ElMessage({
-      type: 'error',
-      showClose: true,
-      message: error.message,
-    })
-  })
-}
-
+defineExpose({
+  data,
+})
 </script>
 
 <template>
@@ -55,9 +23,19 @@ const Save = async () => {
     <h1 text="left font-medium" p="y-10">
       {{ id ? '编辑' : '新建' }}分类
     </h1>
-    <el-form>
+    <el-form label-width="120px">
+      <el-form-item label="上级分类">
+        <el-select v-model="parent">
+          <el-option
+            v-for="item in parents"
+            :key="item._id"
+            :label="item.name"
+            :value="item._id"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item label="名称">
-        <el-input v-model="categoryModel.name" />
+        <el-input v-model="data" />
       </el-form-item>
       <el-form-item>
         <el-button

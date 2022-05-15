@@ -1,8 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
-import axios from 'axios'
-
-axios.defaults.baseURL = 'http://localhost:3000/admin/api'
 
 const routes: Array<RouteRecordRaw> = [
   {

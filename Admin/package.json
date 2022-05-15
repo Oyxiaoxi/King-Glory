@@ -6,15 +6,20 @@
     "build": "vite build",
     "dev": "vite --port 3333 --open",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "typecheck": "vue-tsc --noEmit",
     "preview": "vite preview",
     "test": "vitest"
   },
   "dependencies": {
+    "@types/qs": "^6.9.7",
     "@vueuse/core": "^8.3.1",
     "axios": "^0.27.2",
+    "dotenv": "^16.0.1",
     "element-plus": "^2.2.0",
     "pinia": "^2.0.0-rc.10",
+    "pinia-plugin-persist": "^1.0.0",
+    "qs": "^6.10.3",
     "vue": "^3.2.33",
     "vue-router": "^4.0.14"
   },
