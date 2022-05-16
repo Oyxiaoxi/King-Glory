@@ -4,20 +4,18 @@ import piniaPersistConfig from '~/config/piniaPersist'
 
 export const Category = defineStore({
   id: 'category',
+  // 定义状态
   state: (): CategoryState => ({
     List: {},
   }),
+  // 接收外部数据
   getters: {
-    getCategoryObj: state => () => {
-      return state.List
-    },
+    fetchCategory: state => state.List,
   },
+  // 相当于 Mehtod, 定义业务逻辑
   actions: {
-    async setCategory(listData: any) {
-      this.List = listData
-    },
     async deleteCategory(id: string) {
-      await delete this.List[id]
+      this.List = this.List.filter((item: { id: string }) => item.id !== id)
     },
   },
   persist: piniaPersistConfig('CategoryState'),

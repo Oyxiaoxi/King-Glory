@@ -11,5 +11,8 @@ export interface ResultData<T = any> extends Result {
 
 // * Category
 export namespace Category {
-  export type ResCategories = Record<string, any>
+  export interface ResCategories {
+    _id: string
+    name: string
+  }
 }
