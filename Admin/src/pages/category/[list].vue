@@ -1,13 +1,34 @@
 <script setup lang="ts">
-import { deleteCategory } from '~/api/modules/category'
+import { deleteCategory, fetchCategory } from '~/api/modules/category'
 import { useHandleData } from '~/hooks/useHandleData'
 import type { CategoryProps } from '~/store/interface'
 import { Category } from '~/store/modules/category'
-const store = Category()
 
+const store = Category()
+const categories = computed(() => {
+  return store.fetchCategory
+})
+
+// 页面加载时获取分类列表
+onMounted(() => {
+  fetchCategory().then((res) => {
+    return store.setCategory(res)
+  })
+})
+
+// 删除某一个分类
 const remove = async (params: CategoryProps) => {
-  await useHandleData(deleteCategory, { id: params._id }, `删除 ${params.name} 列表`)
+  await useHandleData(deleteCategory, { id: params._id }, `删除分类 ${params.name} `).then(() => {
+    fetchCategory().then((res) => {
+      return store.setCategory(res)
+    })
+  })
 }
+
+defineExpose({
+  remove,
+  categories,
+})
 </script>
 
 <template>

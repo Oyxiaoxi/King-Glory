@@ -5,6 +5,7 @@ module.exports = app => {
 
   // Create a new category
   router.post('/categorise', async (req, res) => {
+    console.log(req.body)
     const model = await Category.create(req.body)
     res.send(model)
   })

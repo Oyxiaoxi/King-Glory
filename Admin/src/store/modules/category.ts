@@ -10,12 +10,17 @@ export const Category = defineStore({
   }),
   // 接收外部数据
   getters: {
-    fetchCategory: state => state.List,
+    fetchCategory(state) {
+      return state.List
+    },
   },
   // 相当于 Mehtod, 定义业务逻辑
   actions: {
+    async setCategory(rawData: any) {
+      this.List = rawData
+    },
     async deleteCategory(id: string) {
-      this.List = this.List.filter((item: { id: string }) => item.id !== id)
+      // this.List = this.List.filter((item: { id: string }) => item.id !== id)
     },
   },
   persist: piniaPersistConfig('CategoryState'),
