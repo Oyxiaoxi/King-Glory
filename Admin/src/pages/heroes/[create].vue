@@ -1,12 +1,22 @@
 <script setup lang="ts">
+import { fetchCategory } from '~/api/modules/category'
 import { createHero, editHero, fetchByIdHero } from '~/api/modules/hero'
 import { useHandleData } from '~/hooks/useHandleData'
+import { Category } from '~/store/modules/category'
+const category = Category()
 const router = useRouter()
 const props = defineProps({
   id: {
     type: String,
     default: '',
   },
+})
+
+const innerValue = ref({
+  name: '',
+  avatar: '',
+  title: '',
+  categories: [],
 })
 
 if (props.id) {
@@ -18,14 +28,15 @@ if (props.id) {
   onMounted(fetch)
 }
 
-const innerValue = ref({
-  name: '',
-  avatar: '',
-})
-
 const Save = async () => {
   if (props.id) {
-    await useHandleData(editHero, { id: props.id, name: `${innerValue.value.name}`, icon: `${innerValue.value.avatar}` }, `编辑 ${innerValue.value.name}`).then(() => {
+    await useHandleData(editHero, {
+      id: props.id,
+      name: `${innerValue.value.name}`,
+      avatar: `${innerValue.value.avatar}`,
+      title: `${innerValue.value.title}`,
+      categories: `${innerValue.value.categories}`,
+    }, `编辑 ${innerValue.value.name}`).then(() => {
       router.push('/heroes/list')
     })
   }
@@ -40,6 +51,10 @@ const Save = async () => {
 const afterUpload = (res: any) => {
   innerValue.value.avatar = res.url
 }
+
+const rawData = computed(() => {
+  return category.fetchCategory
+})
 </script>
 
 <template>
@@ -50,6 +65,20 @@ const afterUpload = (res: any) => {
     <el-form label-width="120px">
       <el-form-item label="名称">
         <el-input v-model="innerValue.name" />
+      </el-form-item>
+      <el-form-item label="称号">
+        <el-input v-model="innerValue.title" />
+      </el-form-item>
+      <el-form-item label="类型">
+        <el-select v-model="innerValue.categories" multiple>
+          <el-option
+            v-for="item of rawData"
+            :key="item._id"
+            :label="item.name"
+            :value="item._id"
+          />
+        </el-select>
+        <!-- <el-input v-model="innerValue.categories" /> -->
       </el-form-item>
       <el-form-item label="头像">
         <el-upload
