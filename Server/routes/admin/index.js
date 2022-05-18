@@ -21,7 +21,7 @@ module.exports = app => {
   })
   // get all categories
   router.get('/categorise', async (req, res) => {
-    const iterms = await Category.find().limit(10)
+    const iterms = await Category.find().populate('parent').limit(10)
     res.send(iterms)
   })
   // get category by id

@@ -38,6 +38,7 @@ defineExpose({
     </h1>
     <el-table :data="categories">
       <el-table-column prop="_id" label="ID" width="240" />
+      <el-table-column prop="parent.name" label="上级分类" width="240" />
       <el-table-column prop="name" label="分类名称" />
       <el-table-column fixed="right" label="操作" width="140">
         <template #default="scope">

@@ -20,7 +20,7 @@ export const Category = defineStore({
       this.List = rawData
     },
     async deleteCategory(id: string) {
-      // this.List = this.List.filter((item: { id: string }) => item.id !== id)
+      this.List = this.List.filter((item: { id: string }) => item.id !== id)
     },
   },
   persist: piniaPersistConfig('CategoryState'),

@@ -1,9 +1,10 @@
 <script setup lang="ts">
 // axios 请求的方法名
-import { ElMessage } from 'element-plus'
-import { createCategory, editCategory, fetchByIdCategory, fetchCategory } from '~/api/modules/category'
+import { createCategory, editCategory, fetchByIdCategory } from '~/api/modules/category'
 import { useHandleData } from '~/hooks/useHandleData'
+import { Category } from '~/store/modules/category'
 const router = useRouter()
+const store = Category()
 const innerValue = ref({
   name: '',
   parent: [],
@@ -37,20 +38,15 @@ const Save = async () => {
   }
 
   else {
-    if (innerValue.value == '') {
-      ElMessage({
-        type: 'warning',
-        message: '请填写分类名称',
-      })
-    }
-    else {
-      await useHandleData(createCategory, innerValue.value, `创建分类 ${innerValue.value.name} `).then(() => {
-        router.push('/category/list')
-      })
-    }
+    await useHandleData(createCategory, innerValue.value, `创建分类 ${innerValue.value.name} `).then(() => {
+      router.push('/category/list')
+    })
   }
 }
 
+const rawData = computed(() => {
+  return store.fetchCategory
+})
 </script>
 
 <template>
