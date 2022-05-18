@@ -16,3 +16,12 @@ export namespace Category {
     name: string
   }
 }
+
+// * Item
+export namespace Item {
+  export interface ResItems {
+    _id: string
+    name: string
+    icon: string
+  }
+}

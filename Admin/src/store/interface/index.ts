@@ -12,3 +12,13 @@ export interface CategoryProps {
 export interface CategoryState {
   List: Record<string, any>
 }
+
+export interface ItemState {
+  List: Record<string, any>
+}
+
+export interface ItemProps {
+  _id: string
+  name: string
+  icon: string
+}

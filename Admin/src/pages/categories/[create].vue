@@ -20,7 +20,7 @@ const props = defineProps({
 
 if (props.id) {
   const fetch = () => {
-    fetchByIdCategory(props.id).then((result) => {
+    fetchByIdCategory(props.id).then((result: unknown) => {
       innerValue.value = result
     })
   }

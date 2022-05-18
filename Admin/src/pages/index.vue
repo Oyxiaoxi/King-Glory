@@ -14,11 +14,22 @@
               <template #title>
                 分类管理
               </template>
-              <el-menu-item index="/category/create">
+              <el-menu-item index="/categories/create">
                 新建分类
               </el-menu-item>
-              <el-menu-item index="/category/list">
+              <el-menu-item index="/categories/list">
                 分类列表
+              </el-menu-item>
+            </el-menu-item-group>
+            <el-menu-item-group>
+              <template #title>
+                物品管理
+              </template>
+              <el-menu-item index="/items/create">
+                新建物品
+              </el-menu-item>
+              <el-menu-item index="/items/list">
+                物品列表
               </el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>

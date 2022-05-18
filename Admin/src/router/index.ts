@@ -8,18 +8,32 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "home" */ '../pages/index.vue'),
     children: [
       {
-        path: '/category/create',
-        component: () => import(/* webpackChunkName: "category-create" */ '../pages/category/[create].vue'),
+        path: '/categories/create',
+        component: () => import(/* webpackChunkName: "categories-create" */ '../pages/categories/[create].vue'),
       },
       {
-        path: '/category/edit/:id',
+        path: '/categories/edit/:id',
         name: 'CategoryEdit',
-        component: () => import(/* webpackChunkName: "category-create" */ '../pages/category/[create].vue'),
+        component: () => import(/* webpackChunkName: "categories-edit" */ '../pages/categories/[create].vue'),
         props: true,
       },
       {
-        path: '/category/list',
-        component: () => import(/* webpackChunkName: "category-create" */ '../pages/category/[list].vue'),
+        path: '/categories/list',
+        component: () => import(/* webpackChunkName: "categories-list" */ '../pages/categories/[list].vue'),
+      },
+      {
+        path: '/items/create',
+        component: () => import(/* webpackChunkName: "items-create" */ '../pages/items/[create].vue'),
+      },
+      {
+        path: '/items/edit/:id',
+        name: 'CategoryEdit',
+        component: () => import(/* webpackChunkName: "items-edit" */ '../pages/items/[create].vue'),
+        props: true,
+      },
+      {
+        path: '/items/list',
+        component: () => import(/* webpackChunkName: "items-list" */ '../pages/items/[list].vue'),
       },
     ],
   },

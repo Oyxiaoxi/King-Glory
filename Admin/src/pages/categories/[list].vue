@@ -44,7 +44,7 @@ const categories = computed(() => {
       <el-table-column fixed="right" label="操作" width="140">
         <template #default="scope">
           <!-- <el-button type="text" size="small" @click="handleEdit(scope.$index, scope.row._id)"> -->
-          <el-button type="text" size="small" @click="$router.push(`/category/edit/${scope.row._id}`)">
+          <el-button type="text" size="small" @click="$router.push(`/categories/edit/${scope.row._id}`)">
             编辑
           </el-button>
           <el-button type="text" size="small" @click="remove(scope.row)">
