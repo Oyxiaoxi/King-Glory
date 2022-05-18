@@ -25,3 +25,12 @@ export namespace Item {
     icon: string
   }
 }
+
+// * Hero
+export namespace Hero {
+  export interface ResHeroes {
+    _id: string
+    name: string
+    icon: string
+  }
+}

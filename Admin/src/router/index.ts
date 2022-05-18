@@ -13,7 +13,6 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: '/categories/edit/:id',
-        name: 'CategoryEdit',
         component: () => import(/* webpackChunkName: "categories-edit" */ '../pages/categories/[create].vue'),
         props: true,
       },
@@ -27,13 +26,25 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: '/items/edit/:id',
-        name: 'CategoryEdit',
         component: () => import(/* webpackChunkName: "items-edit" */ '../pages/items/[create].vue'),
         props: true,
       },
       {
         path: '/items/list',
         component: () => import(/* webpackChunkName: "items-list" */ '../pages/items/[list].vue'),
+      },
+      {
+        path: '/heroes/create',
+        component: () => import(/* webpackChunkName: "heroes-create" */ '../pages/heroes/[create].vue'),
+      },
+      {
+        path: '/heroes/edit/:id',
+        component: () => import(/* webpackChunkName: "heroes-edit" */ '../pages/heroes/[create].vue'),
+        props: true,
+      },
+      {
+        path: '/heroes/list',
+        component: () => import(/* webpackChunkName: "heroes-list" */ '../pages/heroes/[list].vue'),
       },
     ],
   },

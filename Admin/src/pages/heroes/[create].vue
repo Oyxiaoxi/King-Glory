@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { createItem, editItem, fetchByIdItem } from '~/api/modules/item'
+import { createHero, editHero, fetchByIdHero } from '~/api/modules/hero'
 import { useHandleData } from '~/hooks/useHandleData'
 const router = useRouter()
 const props = defineProps({
@@ -11,7 +11,7 @@ const props = defineProps({
 
 if (props.id) {
   const fetch = () => {
-    fetchByIdItem(props.id).then((result: any) => {
+    fetchByIdHero(props.id).then((result: any) => {
       innerValue.value = result
     })
   }
@@ -20,45 +20,45 @@ if (props.id) {
 
 const innerValue = ref({
   name: '',
-  icon: '',
+  avatar: '',
 })
 
 const Save = async () => {
   if (props.id) {
-    await useHandleData(editItem, { id: props.id, name: `${innerValue.value.name}`, icon: `${innerValue.value.icon}` }, `编辑 ${innerValue.value.name}`).then(() => {
-      router.push('/items/list')
+    await useHandleData(editHero, { id: props.id, name: `${innerValue.value.name}`, icon: `${innerValue.value.avatar}` }, `编辑 ${innerValue.value.name}`).then(() => {
+      router.push('/heroes/list')
     })
   }
 
   else {
-    await useHandleData(createItem, innerValue.value, `创建物品 ${innerValue.value.name} `).then(() => {
-      router.push('/items/list')
+    await useHandleData(createHero, innerValue.value, `创建英雄 ${innerValue.value.name} `).then(() => {
+      router.push('/heroes/list')
     })
   }
 }
 
 const afterUpload = (res: any) => {
-  innerValue.value.icon = res.url
+  innerValue.value.avatar = res.url
 }
 </script>
 
 <template>
   <div p="x-10">
     <h1 text="left font-medium" p="y-10">
-      {{ props.id ? '编辑' : '新建' }}物品
+      {{ props.id ? '编辑' : '新建' }}英雄
     </h1>
     <el-form label-width="120px">
       <el-form-item label="名称">
         <el-input v-model="innerValue.name" />
       </el-form-item>
-      <el-form-item label="图标">
+      <el-form-item label="头像">
         <el-upload
           class="avatar-uploader"
           :show-file-list="false"
           :on-success="afterUpload"
           action="http://localhost:3000/admin/api/upload"
         >
-          <img v-if="innerValue.icon" :src="innerValue.icon" class="avatar">
+          <img v-if="innerValue.avatar" :src="innerValue.avatar" class="avatar">
           <el-icon v-else class="avatar-uploader-icon">
             <Plus />
           </el-icon>
