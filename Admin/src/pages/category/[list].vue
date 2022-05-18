@@ -5,9 +5,6 @@ import type { CategoryProps } from '~/store/interface'
 import { Category } from '~/store/modules/category'
 
 const store = Category()
-const categories = computed(() => {
-  return store.fetchCategory
-})
 
 // 页面加载时获取分类列表
 onMounted(() => {
@@ -25,10 +22,14 @@ const remove = async (params: CategoryProps) => {
   })
 }
 
-defineExpose({
-  remove,
-  categories,
+const categories = computed(() => {
+  return store.fetchCategory
 })
+
+// defineExpose({
+//   remove,
+//   categories,
+// })
 </script>
 
 <template>
