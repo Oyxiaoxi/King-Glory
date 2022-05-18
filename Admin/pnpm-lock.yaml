@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@antfu/eslint-config': ^0.22.0
+  '@element-plus/icons-vue': ^1.1.4
   '@iconify-json/carbon': ^1.1.4
   '@types/node': ^17.0.31
   '@types/qs': ^6.9.7
@@ -30,6 +31,7 @@ specifiers:
   vue-tsc: ^0.34.11
 
 dependencies:
+  '@element-plus/icons-vue': 1.1.4_vue@3.2.33
   '@types/qs': 6.9.7
   '@vueuse/core': 8.3.1_vue@3.2.33
   axios: 0.27.2

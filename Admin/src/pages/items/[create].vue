@@ -25,7 +25,7 @@ const innerValue = ref({
 
 const Save = async () => {
   if (props.id) {
-    await useHandleData(editItem, { id: props.id, name: `${innerValue.value.name}` }, `编辑 ${innerValue.value.name}`).then(() => {
+    await useHandleData(editItem, { id: props.id, name: `${innerValue.value.name}`, icon: `${innerValue.value.icon}` }, `编辑 ${innerValue.value.name}`).then(() => {
       router.push('/items/list')
     })
   }
@@ -35,6 +35,13 @@ const Save = async () => {
       router.push('/items/list')
     })
   }
+}
+const upload = () => {
+
+}
+
+const afterUpload = (res: any) => {
+  innerValue.value.icon = res.url
 }
 </script>
 
@@ -48,7 +55,18 @@ const Save = async () => {
         <el-input v-model="innerValue.name" />
       </el-form-item>
       <el-form-item label="图标">
-        <el-input v-model="innerValue.icon" />
+        <el-upload
+          class="avatar-uploader"
+          :show-file-list="false"
+          :on-success="afterUpload"
+          action="http://localhost:3000/admin/api/upload"
+          @click.prevent="upload"
+        >
+          <img v-if="innerValue.icon" :src="innerValue.icon" class="avatar">
+          <el-icon v-else class="avatar-uploader-icon">
+            <Plus />
+          </el-icon>
+        </el-upload>
       </el-form-item>
       <el-form-item>
         <el-button
@@ -62,3 +80,32 @@ const Save = async () => {
     </el-form>
   </div>
 </template>
+
+<style>
+.avatar-uploader .avatar {
+  width: 78px;
+  height: 78px;
+  display: block;
+}
+
+.avatar-uploader .el-upload {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+  font-size: 20px;
+  color: #8c939d;
+  width: 78px;
+  height: 78px;
+  text-align: center;
+}
+</style>
