@@ -25,6 +25,12 @@ const innerValue = ref({
     attack: '',
     survive: '',
   },
+  skills: [{
+    icon: '',
+    name: '',
+    description: '',
+    tips: '',
+  }],
   items1: [],
   items2: [],
   usageTips: '',
@@ -50,6 +56,7 @@ const Save = async () => {
       title: `${innerValue.value.title}`,
       categories: innerValue.value.categories,
       scores: innerValue.value.scores,
+      skills: innerValue.value.skills,
       items1: innerValue.value.items1,
       items2: innerValue.value.items2,
       usageTips: `${innerValue.value.usageTips}`,
@@ -77,6 +84,8 @@ const rawDataCategories = computed(() => {
 const rawDataItmes = computed(() => {
   return item.fetchItem
 })
+
+const activeName = ref('skills')
 </script>
 
 <template>
@@ -85,78 +94,116 @@ const rawDataItmes = computed(() => {
       {{ props.id ? '编辑' : '新建' }}英雄
     </h1>
     <el-form label-width="120px">
-      <el-form-item label="头像">
-        <el-upload
-          class="avatar-uploader"
-          :show-file-list="false"
-          :on-success="afterUpload"
-          action="http://localhost:3000/admin/api/upload"
-        >
-          <img v-if="innerValue.avatar" :src="innerValue.avatar" class="avatar">
-          <el-icon v-else class="avatar-uploader-icon">
-            <Plus />
-          </el-icon>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="名称">
-        <el-input v-model="innerValue.name" />
-      </el-form-item>
-      <el-form-item label="称号">
-        <el-input v-model="innerValue.title" />
-      </el-form-item>
-      <el-form-item label="类型">
-        <el-select v-model="innerValue.categories" multiple>
-          <el-option
-            v-for="item of rawDataCategories"
-            :key="item._id"
-            :label="item.name"
-            :value="item._id"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="难度">
-        <!-- <el-rate v-model="innerValue.scores.difficult" :max="9" show-score m-2/> -->
-        <el-rate v-model="innerValue.scores.difficult" :max="9" show-score />
-      </el-form-item>
-      <el-form-item label="技能">
-        <el-rate v-model="innerValue.scores.skills" :max="9" show-score />
-      </el-form-item>
-      <el-form-item label="攻击">
-        <el-rate v-model="innerValue.scores.attack" :max="9" show-score />
-      </el-form-item>
-      <el-form-item label="生存">
-        <el-rate v-model="innerValue.scores.survive" :max="9" show-score />
-      </el-form-item>
-      <el-form-item label="顺风出装">
-        <el-select v-model="innerValue.items1" multiple>
-          <el-option
-            v-for="item of rawDataItmes"
-            :key="item._id"
-            :label="item.name"
-            :value="item._id"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="逆风出装">
-        <el-select v-model="innerValue.items2" multiple>
-          <el-option
-            v-for="item of rawDataItmes"
-            :key="item._id"
-            :label="item.name"
-            :value="item._id"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="使用技巧">
-        <el-input v-model="innerValue.usageTips" type="textarea" />
-      </el-form-item>
-      <el-form-item label="对抗技巧">
-        <el-input v-model="innerValue.battleTips" type="textarea" />
-      </el-form-item>
-      <el-form-item label="团战思路">
-        <el-input v-model="innerValue.teamTips" type="textarea" />
-      </el-form-item>
-      <el-form-item>
+      <el-tabs v-model="activeName" type="border-card">
+        <el-tab-pane label="基础信息" name="basic">
+          <el-form-item label="头像">
+            <el-upload
+              class="avatar-uploader"
+              :show-file-list="false"
+              :on-success="afterUpload"
+              action="http://localhost:3000/admin/api/upload"
+            >
+              <img v-if="innerValue.avatar" :src="innerValue.avatar" class="avatar">
+              <el-icon v-else class="avatar-uploader-icon">
+                <Plus />
+              </el-icon>
+            </el-upload>
+          </el-form-item>
+          <el-form-item label="名称">
+            <el-input v-model="innerValue.name" />
+          </el-form-item>
+          <el-form-item label="称号">
+            <el-input v-model="innerValue.title" />
+          </el-form-item>
+          <el-form-item label="类型">
+            <el-select v-model="innerValue.categories" multiple>
+              <el-option
+                v-for="item of rawDataCategories"
+                :key="item._id"
+                :label="item.name"
+                :value="item._id"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="难度">
+            <!-- <el-rate v-model="innerValue.scores.difficult" :max="9" show-score m-2/> -->
+            <el-rate v-model="innerValue.scores.difficult" :max="9" show-score />
+          </el-form-item>
+          <el-form-item label="技能">
+            <el-rate v-model="innerValue.scores.skills" :max="9" show-score />
+          </el-form-item>
+          <el-form-item label="攻击">
+            <el-rate v-model="innerValue.scores.attack" :max="9" show-score />
+          </el-form-item>
+          <el-form-item label="生存">
+            <el-rate v-model="innerValue.scores.survive" :max="9" show-score />
+          </el-form-item>
+          <el-form-item label="顺风出装">
+            <el-select v-model="innerValue.items1" multiple>
+              <el-option
+                v-for="item of rawDataItmes"
+                :key="item._id"
+                :label="item.name"
+                :value="item._id"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="逆风出装">
+            <el-select v-model="innerValue.items2" multiple>
+              <el-option
+                v-for="item of rawDataItmes"
+                :key="item._id"
+                :label="item.name"
+                :value="item._id"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="使用技巧">
+            <el-input v-model="innerValue.usageTips" type="textarea" />
+          </el-form-item>
+          <el-form-item label="对抗技巧">
+            <el-input v-model="innerValue.battleTips" type="textarea" />
+          </el-form-item>
+          <el-form-item label="团战思路">
+            <el-input v-model="innerValue.teamTips" type="textarea" />
+          </el-form-item>
+        </el-tab-pane>
+        <el-tab-pane label="技能" name="skills" text-left>
+          <el-button @click.prevent="innerValue.skills.push({})">
+            <el-icon>
+              <Plus />
+            </el-icon>
+            添加技能
+          </el-button>
+          <el-row type="flex" style="flex-wrap: wrap" p="x-4 y-4">
+            <el-col v-for="(item, index) in innerValue.skills" :key="index" :md="12">
+              <el-form-item label="技能名称">
+                <el-input v-model="item.name" />
+              </el-form-item>
+              <el-form-item label="技能图标">
+                <el-upload
+                  class="avatar-uploader"
+                  :show-file-list="false"
+                  :on-success="afterUpload"
+                  action="http://localhost:3000/admin/api/upload"
+                >
+                  <img v-if="item.icon" :src="item.icon" class="avatar">
+                  <el-icon v-else class="avatar-uploader-icon">
+                    <Plus />
+                  </el-icon>
+                </el-upload>
+              </el-form-item>
+              <el-form-item label="技能描述">
+                <el-input v-model="item.description" type="textarea" />
+              </el-form-item>
+              <el-form-item label="技能小提示">
+                <el-input v-model="item.tips" type="textarea" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-tab-pane>
+      </el-tabs>
+      <el-form-item mt-8>
         <el-button
           type="primary"
           native-type="submit"
@@ -199,5 +246,9 @@ const rawDataItmes = computed(() => {
 
 .el-rate .el-rate__item .el-rate__icon {
   margin-top: 0.7rem
+}
+
+#pane-skills .el-button .el-icon {
+  margin-right: 0.2rem;
 }
 </style>
