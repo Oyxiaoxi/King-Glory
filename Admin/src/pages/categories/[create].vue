@@ -33,13 +33,13 @@ const Save = async () => {
   // params 参数 可以是对象或者数组 categories.value
   if (props.id) {
     await useHandleData(editCategory, { id: props.id, name: `${innerValue.value.name}` }, `编辑 ${innerValue.value.name}`).then(() => {
-      router.push('/category/list')
+      router.push('/categories/list')
     })
   }
 
   else {
     await useHandleData(createCategory, innerValue.value, `创建分类 ${innerValue.value.name} `).then(() => {
-      router.push('/category/list')
+      router.push('/categories/list')
     })
   }
 }

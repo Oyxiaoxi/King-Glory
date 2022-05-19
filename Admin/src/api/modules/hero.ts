@@ -18,7 +18,22 @@ export const fetchByIdHero = async (params: { id: string }) => {
 }
 
 // * 编辑英雄
-export const editHero = async (params: { id: string; name: string; avatar: string; title: string; categories: any[] }) => {
+export const editHero = async (
+  params: {
+    id: string
+    name: string
+    avatar: string
+    title: string
+    categories: any[]
+    scores: {}
+    items1: any[]
+    items2: any[]
+    usageTips: string
+    battleTips: string
+    teamTips: string
+  },
+) => {
+  console.log(params)
   return await http.put<Hero.ResHeroes>(`${SERVICE_PORT}rest/heroes/${params.id}`, params)
 }
 

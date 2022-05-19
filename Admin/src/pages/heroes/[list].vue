@@ -34,6 +34,7 @@ const heroes = computed(() => {
     <el-table :data="heroes">
       <el-table-column prop="_id" label="ID" width="240" />
       <el-table-column prop="name" label="英雄" />
+      <el-table-column prop="title" label="称号" />
       <el-table-column prop="avatar" label="图标">
         <template #default="scope">
           <el-popover effect="light" trigger="hover" placement="right" width="auto">

@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { fetchCategory } from '~/api/modules/category'
 import { createHero, editHero, fetchByIdHero } from '~/api/modules/hero'
 import { useHandleData } from '~/hooks/useHandleData'
 import { Category } from '~/store/modules/category'
+import { Item } from '~/store/modules/item'
+
 const category = Category()
+const item = Item()
 const router = useRouter()
 const props = defineProps({
   id: {
@@ -17,12 +19,23 @@ const innerValue = ref({
   avatar: '',
   title: '',
   categories: [],
+  scores: {
+    difficult: 0,
+    skills: '',
+    attack: '',
+    survive: '',
+  },
+  items1: [],
+  items2: [],
+  usageTips: '',
+  battleTips: '',
+  teamTips: '',
 })
 
 if (props.id) {
   const fetch = () => {
     fetchByIdHero(props.id).then((result: any) => {
-      innerValue.value = result
+      innerValue.value = Object.assign({}, innerValue.value, result)
     })
   }
   onMounted(fetch)
@@ -35,7 +48,13 @@ const Save = async () => {
       name: `${innerValue.value.name}`,
       avatar: `${innerValue.value.avatar}`,
       title: `${innerValue.value.title}`,
-      categories: `${innerValue.value.categories}`,
+      categories: innerValue.value.categories,
+      scores: innerValue.value.scores,
+      items1: innerValue.value.items1,
+      items2: innerValue.value.items2,
+      usageTips: `${innerValue.value.usageTips}`,
+      battleTips: `${innerValue.value.battleTips}`,
+      teamTips: `${innerValue.value.teamTips}`,
     }, `编辑 ${innerValue.value.name}`).then(() => {
       router.push('/heroes/list')
     })
@@ -52,8 +71,11 @@ const afterUpload = (res: any) => {
   innerValue.value.avatar = res.url
 }
 
-const rawData = computed(() => {
+const rawDataCategories = computed(() => {
   return category.fetchCategory
+})
+const rawDataItmes = computed(() => {
+  return item.fetchItem
 })
 </script>
 
@@ -63,23 +85,6 @@ const rawData = computed(() => {
       {{ props.id ? '编辑' : '新建' }}英雄
     </h1>
     <el-form label-width="120px">
-      <el-form-item label="名称">
-        <el-input v-model="innerValue.name" />
-      </el-form-item>
-      <el-form-item label="称号">
-        <el-input v-model="innerValue.title" />
-      </el-form-item>
-      <el-form-item label="类型">
-        <el-select v-model="innerValue.categories" multiple>
-          <el-option
-            v-for="item of rawData"
-            :key="item._id"
-            :label="item.name"
-            :value="item._id"
-          />
-        </el-select>
-        <!-- <el-input v-model="innerValue.categories" /> -->
-      </el-form-item>
       <el-form-item label="头像">
         <el-upload
           class="avatar-uploader"
@@ -92,6 +97,64 @@ const rawData = computed(() => {
             <Plus />
           </el-icon>
         </el-upload>
+      </el-form-item>
+      <el-form-item label="名称">
+        <el-input v-model="innerValue.name" />
+      </el-form-item>
+      <el-form-item label="称号">
+        <el-input v-model="innerValue.title" />
+      </el-form-item>
+      <el-form-item label="类型">
+        <el-select v-model="innerValue.categories" multiple>
+          <el-option
+            v-for="item of rawDataCategories"
+            :key="item._id"
+            :label="item.name"
+            :value="item._id"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="难度">
+        <!-- <el-rate v-model="innerValue.scores.difficult" :max="9" show-score m-2/> -->
+        <el-rate v-model="innerValue.scores.difficult" :max="9" show-score />
+      </el-form-item>
+      <el-form-item label="技能">
+        <el-rate v-model="innerValue.scores.skills" :max="9" show-score />
+      </el-form-item>
+      <el-form-item label="攻击">
+        <el-rate v-model="innerValue.scores.attack" :max="9" show-score />
+      </el-form-item>
+      <el-form-item label="生存">
+        <el-rate v-model="innerValue.scores.survive" :max="9" show-score />
+      </el-form-item>
+      <el-form-item label="顺风出装">
+        <el-select v-model="innerValue.items1" multiple>
+          <el-option
+            v-for="item of rawDataItmes"
+            :key="item._id"
+            :label="item.name"
+            :value="item._id"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="逆风出装">
+        <el-select v-model="innerValue.items2" multiple>
+          <el-option
+            v-for="item of rawDataItmes"
+            :key="item._id"
+            :label="item.name"
+            :value="item._id"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="使用技巧">
+        <el-input v-model="innerValue.usageTips" type="textarea" />
+      </el-form-item>
+      <el-form-item label="对抗技巧">
+        <el-input v-model="innerValue.battleTips" type="textarea" />
+      </el-form-item>
+      <el-form-item label="团战思路">
+        <el-input v-model="innerValue.teamTips" type="textarea" />
       </el-form-item>
       <el-form-item>
         <el-button
@@ -132,5 +195,9 @@ const rawData = computed(() => {
   width: 78px;
   height: 78px;
   text-align: center;
+}
+
+.el-rate .el-rate__item .el-rate__icon {
+  margin-top: 0.7rem
 }
 </style>
