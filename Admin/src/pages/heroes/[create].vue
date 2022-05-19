@@ -78,6 +78,10 @@ const afterUpload = (res: any) => {
   innerValue.value.avatar = res.url
 }
 
+const afterUploadSkill = (res: any) => {
+  innerValue.value.skills[0].icon = res.url
+}
+
 const rawDataCategories = computed(() => {
   return category.fetchCategory
 })
@@ -168,7 +172,7 @@ const activeName = ref('skills')
             <el-input v-model="innerValue.teamTips" type="textarea" />
           </el-form-item>
         </el-tab-pane>
-        <el-tab-pane label="技能" name="skills" text-left>
+        <el-tab-pane label="技能信息" name="skills" text-left>
           <el-button @click.prevent="innerValue.skills.push({})">
             <el-icon>
               <Plus />
@@ -184,7 +188,7 @@ const activeName = ref('skills')
                 <el-upload
                   class="avatar-uploader"
                   :show-file-list="false"
-                  :on-success="afterUpload"
+                  :on-success="afterUploadSkill"
                   action="http://localhost:3000/admin/api/upload"
                 >
                   <img v-if="item.icon" :src="item.icon" class="avatar">
@@ -198,6 +202,11 @@ const activeName = ref('skills')
               </el-form-item>
               <el-form-item label="技能小提示">
                 <el-input v-model="item.tips" type="textarea" />
+              </el-form-item>
+              <el-form-item>
+                <el-button type="danger" @click.prevent="innerValue.skills.splice(index,1)">
+                  删除
+                </el-button>
               </el-form-item>
             </el-col>
           </el-row>

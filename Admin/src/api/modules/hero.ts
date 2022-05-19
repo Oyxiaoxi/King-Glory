@@ -35,7 +35,7 @@ export const editHero = async (
   },
 ) => {
   console.log(params)
-  // return await http.put<Hero.ResHeroes>(`${SERVICE_PORT}rest/heroes/${params.id}`, params)
+  return await http.put<Hero.ResHeroes>(`${SERVICE_PORT}rest/heroes/${params.id}`, params)
 }
 
 // * 删除英雄列表
