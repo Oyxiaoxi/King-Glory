@@ -34,3 +34,11 @@ export namespace Hero {
     icon: string
   }
 }
+
+// * Article
+export namespace Article {
+  export interface ResArticles {
+    _id: string
+    title: string
+  }
+}

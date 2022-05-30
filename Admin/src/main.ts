@@ -11,6 +11,7 @@ import '@unocss/reset/tailwind.css'
 import './styles/main.css'
 import 'uno.css'
 import 'element-plus/dist/index.css'
+import 'easymde/dist/easymde.min.css'
 
 const app = createApp(App)
 

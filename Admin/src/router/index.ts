@@ -46,6 +46,19 @@ const routes: Array<RouteRecordRaw> = [
         path: '/heroes/list',
         component: () => import(/* webpackChunkName: "heroes-list" */ '../pages/heroes/[list].vue'),
       },
+      {
+        path: '/articles/create',
+        component: () => import(/* webpackChunkName: "articles-create" */ '../pages/articles/[create].vue'),
+      },
+      {
+        path: '/articles/edit/:id',
+        component: () => import(/* webpackChunkName: "articles-edit" */ '../pages/articles/[create].vue'),
+        props: true,
+      },
+      {
+        path: '/articles/list',
+        component: () => import(/* webpackChunkName: "articles-list" */ '../pages/articles/[list].vue'),
+      },
     ],
   },
 ]
