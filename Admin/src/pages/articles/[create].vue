@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { Options } from 'easymde'
+import axios from 'axios'
+import { VueEditor } from 'vue3-editor'
 // axios 请求的方法名
 import { createArticle, editArticle, fetchByIdArticle } from '~/api/modules/article'
 import { useHandleData } from '~/hooks/useHandleData'
@@ -55,28 +56,24 @@ const rawData = computed(() => {
   return store.fetchCategory
 })
 
-const textArea = ref<null | HTMLTextAreaElement>(null)
-const editorStatus = reactive({
-  isValid: true,
-  message: '',
-})
-const editorOptions: Options = {
-  spellChecker: false,
-}
-const checkEditor = () => {
-  if (innerValue.value.body.trim() === '') {
-    editorStatus.isValid = false
-    editorStatus.message = '文章详情不能为空'
-  }
-  else {
-    editorStatus.isValid = true
-    editorStatus.message = ''
-  }
-}
+const handleImageAdded = (file: string | Blob, Editor: { insertEmbed: (arg0: any, arg1: string, arg2: any) => void }, cursorLocation: any, resetUploader: () => void) => {
+  const formData = new FormData()
+  formData.append('file', file)
 
-defineExpose({
-  textArea,
-})
+  axios({
+    url: 'http://localhost:3000/admin/api/upload',
+    method: 'POST',
+    data: formData,
+  })
+    .then((result) => {
+      const url = result.data.url // Get url from response
+      Editor.insertEmbed(cursorLocation, 'image', url)
+      resetUploader()
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}
 </script>
 
 <template>
@@ -99,14 +96,12 @@ defineExpose({
         <el-input v-model="innerValue.title" />
       </el-form-item>
       <el-form-item label="详情">
-        <editor
+        <vue-editor
           v-model="innerValue.body"
-          :options="editorOptions"
-          :class="{'is-invalid': !editorStatus.isValid}"
-          w-full h-full text-left
-          @blur="checkEditor"
+          use-custom-image-handler
+          w-full
+          text-left @image-added="handleImageAdded"
         />
-        <span v-if="!editorStatus.isValid" class="invalid-feedback mt-1">{{ editorStatus.message }}</span>
       </el-form-item>
       <el-form-item>
         <el-button

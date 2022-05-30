@@ -17,13 +17,13 @@
     "@vueuse/core": "^8.3.1",
     "axios": "^0.27.2",
     "dotenv": "^16.0.1",
-    "easymde": "^2.16.1",
     "element-plus": "^2.2.0",
     "pinia": "^2.0.0-rc.10",
     "pinia-plugin-persist": "^1.0.0",
     "qs": "^6.10.3",
     "vue": "^3.2.33",
-    "vue-router": "^4.0.14"
+    "vue-router": "^4.0.14",
+    "vue3-editor": "^0.1.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.22.0",
